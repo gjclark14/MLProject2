@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
 
     avg_loss = six(t_target, t_features, Boston.RM)
-    print(avg_lossRepeat experiments (4), (6), and (7) using all 13 input features as X. How do the)
+    # print(avg_lossRepeat experiments (4), (6), and (7) using all 13 input features as X. How do the)
 
     # 7
     # Repeat experiment (6) for the validation set. How do the training and validation MSE values compare?
