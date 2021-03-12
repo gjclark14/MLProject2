@@ -1,7 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -67,6 +63,7 @@ def six(t_target, t_features, feature):
     avg_loss = (1 / len(t_target)) * sum
     return avg_loss
 
+
 def get_loss(t, X, W):
     """
     Similar to six, calculates the loss this time using np and matrix operations:\n
@@ -81,7 +78,8 @@ def get_loss(t, X, W):
     t_minus_Xw_transpose = np.transpose(t_minus_Xw)
     return np.dot(t_minus_Xw_transpose, t_minus_Xw) / len(t)
 
-def get_w(x, t, feature = 0):
+
+def get_w(x, t, feature=0):
     """
     Returns the weight vector
 
@@ -96,6 +94,7 @@ def get_w(x, t, feature = 0):
     Xt = np.dot(X.T, t)
     return np.dot(invXX, Xt)
 
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     features = []
@@ -103,28 +102,32 @@ if __name__ == '__main__':
 
     np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 
+    # 1
     with np.load('boston.npz') as data:
         features = data['features']
         target = data['target'][:, None]
 
+    # 2
     # our validation set, first 102 items
     v_features = features[:102]
     v_target = target[:102]
 
+    # 2 continued
     # our training set, next 404 items
     t_features = features[102:]
     t_target = target[102:]
 
     # TODO: Add labels to the scatterplot
-    # NUMBER 3
+    # 3
     plt.scatter(t_features[:, Boston.RM], t_target)
     plt.show()
 
-    # NUMBER FOUR, this gives us w, a two item set, containing w0 and w1
+    # 4, this gives us w, a two item set, containing w0 and w1
+    # the equation of the line is = w0 + w1x ~= -34.126 + 9.036x
     w = four(t_features, Boston.RM)
     print(f'four: w = <{w[0]},{w[1]}>')
 
-    # NUMBER 5, this graphs the line
+    # 5, this graphs the line
     testx = np.linspace(4, 9, 2)[:, None]
     testX = np.hstack((np.ones_like(testx), testx))
     testt = np.dot(testX, w)
@@ -134,35 +137,32 @@ if __name__ == '__main__':
     plt.plot(testx, testt, 'g')
     plt.show()
 
-    # NUMBER 6
+    # 6
     avg_loss = six(t_target, t_features, Boston.RM)
     print(f'six: {avg_loss}')
 
     # 7
-    # Repeat experiment (6) for the validation set. How do the training and validation MSE values compare?
-    # What accounts for the difference?
     avg_loss = six(v_target, v_features, Boston.RM)
     print(f'seven: {avg_loss}')
 
     # 8
-    # the repetition of number four
+    # 8-4
     print('eight: (the repetition of four) w = ', end='')
     print(get_w(t_features, t_target))
 
-    # the repetition of number 6
+    # 8-6
     X = np.hstack((np.ones_like(t_features[:, 0][:, None]), t_features))
     print(f'loss of the entire training set: {get_loss(t_target, X, get_w(t_features, t_target))}')
 
-    # the repetition of number 7
+    # 8-7
     X = np.hstack((np.ones_like(v_features[:, 0][:, None]), v_features))
     print(f'loss of the entire validation set: {get_loss(v_target, X, get_w(v_features, v_target))}')
 
     # 9
+    # only consideration here is that the variable names are not being printed, that could be hardcoded in easily
+    # look at the Boston class... However, w is a vector whose 0th element is to be ignored, thus consider all
+    # elements except the 0th.
     X = np.hstack((np.ones_like(t_features[:, 0][:, None]), t_features))
     w = get_w(t_features, t_target)
     for i in range(1, len(w)):
-        print(f'${float(w[i])*1000:.2f}')
-
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        print(f'${float(w[i]) * 1000:.2f}')
